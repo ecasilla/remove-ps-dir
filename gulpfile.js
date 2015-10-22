@@ -54,4 +54,10 @@ gulp.task('coveralls', ['test'], function () {
 });
 
 gulp.task('prepublish', ['nsp']);
-gulp.task('default', ['static', 'test', 'coveralls']);
+gulp.task('default', ['static', 'coveralls']);
+gulp.task('chai', ['watch']);
+
+gulp.task('watch', function () {
+    gulp.watch('./lib/**/*.js', ['test']);
+    gulp.watch('./test/**/*.js',['test']);
+});

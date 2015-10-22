@@ -1,10 +1,12 @@
 'use strict';
 
-var assert = require('assert');
+var expect = require('chai').expect;
 var removePsDir = require('../lib');
 
 describe('remove-ps-dir', function () {
-  it('should have unit test!', function () {
-    assert(false, 'we expected this package author to add actual unit tests.');
+  context('Interface', function () {
+    it('should be an object', function (){
+      expect(removePsDir).to.be.an('object');
+    });
   });
 });
