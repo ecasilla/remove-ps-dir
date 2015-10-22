@@ -1,0 +1,40 @@
+{
+  "name": "remove-ps-dir",
+  "version": "0.0.0",
+  "description": "A module to remove directory's that are named after their process id",
+  "homepage": "https://github.com/ecasilla/remove-ps-dir",
+  "author": {
+    "name": "Ernie Casilla",
+    "email": "ecasilla@icloud.com",
+    "url": "www.erniecasilla.com"
+  },
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "keywords": [
+    "ps",
+    "ps",
+    "tree",
+    "process"
+  ],
+  "repository": "ecasilla/remove-ps-dir",
+  "devDependencies": {
+    "gulp": "^3.6.0",
+    "gulp-eslint": "^1.0.0",
+    "gulp-exclude-gitignore": "^1.0.0",
+    "gulp-istanbul": "^0.9.0",
+    "gulp-mocha": "^2.0.0",
+    "gulp-plumber": "^1.0.0",
+    "gulp-nsp": "^0.4.5",
+    "gulp-coveralls": "^0.1.0"
+  },
+  "scripts": {
+    "prepublish": "gulp prepublish",
+    "test": "gulp"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "event-stream": "^3.3.2"
+  }
+}
