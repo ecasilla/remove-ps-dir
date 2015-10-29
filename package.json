@@ -38,6 +38,7 @@
   "license": "MIT",
   "dependencies": {
     "event-stream": "^3.3.2",
-    "lodash": "^3.10.1"
+    "lodash": "^3.10.1",
+    "stream-reduce": "^1.0.3"
   }
 }
