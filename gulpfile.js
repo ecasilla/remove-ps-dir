@@ -8,6 +8,7 @@ var istanbul = require('gulp-istanbul');
 var nsp = require('gulp-nsp');
 var plumber = require('gulp-plumber');
 var coveralls = require('gulp-coveralls');
+var notify = require('gulp-notify');
 
 gulp.task('static', function () {
   return gulp.src('**/*.js')
@@ -58,6 +59,20 @@ gulp.task('default', ['static', 'coveralls']);
 gulp.task('chai', ['watch']);
 
 gulp.task('watch', function () {
-    gulp.watch('./lib/**/*.js', ['test']);
-    gulp.watch('./test/**/*.js',['test']);
+  gulp.watch('./lib/**/*.js', ['test']).on('error', handleErrors);
+  gulp.watch('./test/**/*.js', ['test']).on('error', handleErrors);
 });
+
+function handleErrors() {
+
+  var args = Array.prototype.slice.call(arguments);
+
+  // Send error to notification center with gulp-notify
+  notify.onError({
+    title: 'Compile Error',
+    message: '<%= error %>'
+  }).apply(this, args);
+
+  // Keep gulp from hanging on this task
+  this.emit('end');
+}
