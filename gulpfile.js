@@ -1,14 +1,15 @@
 'use strict';
-var path = require('path');
-var gulp = require('gulp');
-var eslint = require('gulp-eslint');
+var path             = require('path');
+var gulp             = require('gulp');
+var eslint           = require('gulp-eslint');
 var excludeGitignore = require('gulp-exclude-gitignore');
-var mocha = require('gulp-mocha');
-var istanbul = require('gulp-istanbul');
-var nsp = require('gulp-nsp');
-var plumber = require('gulp-plumber');
-var coveralls = require('gulp-coveralls');
-var notify = require('gulp-notify');
+var mocha            = require('gulp-mocha');
+var istanbul         = require('gulp-istanbul');
+var nsp              = require('gulp-nsp');
+var plumber          = require('gulp-plumber');
+var coveralls        = require('gulp-coveralls');
+var notify           = require('gulp-notify');
+var header           = require('gulp-header');
 
 gulp.task('static', function () {
   return gulp.src('**/*.js')
@@ -23,7 +24,7 @@ gulp.task('nsp', function (cb) {
 });
 
 gulp.task('pre-test', function () {
-  return gulp.src('lib/**/*.js')
+  return gulp.src('lib/**/*.js','!lib/api.js')
     .pipe(istanbul({
       includeUntested: true
     }))
@@ -45,6 +46,21 @@ gulp.task('test', ['pre-test'], function (cb) {
     });
 });
 
+gulp.task('banner', function() {
+var pkg = require('./package.json');
+var banner = ['/**',
+  ' * <%= pkg.name %> - <%= pkg.description %>',
+  ' * @version v<%= pkg.version %>',
+  ' * @link <%= pkg.homepage %>',
+  ' * @license <%= pkg.license %>',
+  ' * @author <%= pkg.author.name %> - <%= pkg.author.email %>',
+  ' */',
+  ''].join('\n');
+ 
+gulp.src('./lib/**/*.js')
+  .pipe(header(banner, { pkg : pkg } ))
+})
+
 gulp.task('coveralls', ['test'], function () {
   if (!process.env.CI) {
     return;
@@ -54,7 +70,7 @@ gulp.task('coveralls', ['test'], function () {
     .pipe(coveralls());
 });
 
-gulp.task('prepublish', ['nsp']);
+gulp.task('prepublish', ['nsp','banner']);
 gulp.task('default', ['static', 'coveralls']);
 gulp.task('chai', ['watch']);
 

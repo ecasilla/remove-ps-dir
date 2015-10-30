@@ -2,6 +2,7 @@
 
 var expect = require('chai').expect;
 var sinon = require('sinon');
+var fs = require('fs');
 var RemovePsDir = require('../lib');
 
 describe('remove-ps-dir', function () {
@@ -27,6 +28,15 @@ describe('remove-ps-dir', function () {
     it('should have a private Running Processes fn', function (){
       expect(RemovePsDir.__runningProcess).to.be.an('function');
     });
+    it('should have a private Remove Dir fn', function (){
+      expect(RemovePsDir.__rmdir).to.be.an('function');
+    });
+    it('should have a private Reduce fn', function (){
+      expect(RemovePsDir.__reduce).to.be.an('function');
+    });
+    it('should have a private Done fn', function (){
+      expect(RemovePsDir.__done).to.be.an('function');
+    });
   });
   context('Implementation', function () {
     it('should guard against bad args being passed by calling the gatekeeper', function (){
@@ -40,9 +50,14 @@ describe('remove-ps-dir', function () {
     it('should return an Error if a callback is not passed', function (){
       expect(RemovePsDir.__gateKeeper('', undefined)).to.be.an.instanceof(Error);
     });
-    it('should return an a array of number only dirs for a given file path', function (){
-       //var root = process.cwd();
-       //expect(RemovePsDir.__getPsDir(root + '/test/fixtures/tmp')).to.eql(['12345','66609']);
+    it('should ignore char named directorys', function (){
+       var root = process.cwd();
+       expect(RemovePsDir.__getPsDir(root + '/test/fixtures/tmp')).to.not.include(['helloo']);
     });
+    it('should remove directorys', function (done){
+      fs.mkdirSync(process.cwd() + '/test/fixtures/tmp/55555');
+      RemovePsDir.remove(process.cwd() + '/test/fixtures/tmp',function(err) {
+        expect(err).to.eql(null);
+      });
   });
 });
