@@ -1,23 +1,25 @@
+'use strict';
 var fs        = require('fs');
 var nodePath  = require('path');
 var spawn     = require('child_process').spawn;
 var es        = require('event-stream');
 var async     = require('async');
-var path      = nodePath.join(process.cwd(),'/test/fixtures/tmp/');
+var path      = nodePath.join(process.cwd(), '/test/fixtures/tmp/');
 var header    = null;
 var count     = 1;
 var runningAmount = null;
 
-function createRunningDirs (amount,cb){
+function createRunningDirs(amount, cb){
   runningAmount = amount;
   return es.pipeline(
     spawn('ps', ['-A', '-o', 'pid']).stdout,
     es.split(),
-    es.map(createRunning)
+    es.map(createRunning),
+    es.pipe(es.writeArray(cb))
   ).on('error', cb);
 }
 
-function createRunning (line, cb) {
+function createRunning(line, cb) {
 
   var runningPid = null;
 
@@ -32,8 +34,8 @@ function createRunning (line, cb) {
   if (runningPid && count <= runningAmount){
     count++;
     var dir = path + runningPid;
-    return fs.mkdir(dir,function(err) {
-     return cb(null,dir);
+    return fs.mkdir(dir, function () {
+      return cb(null, dir);
     });
   } else {
     //callback empty as to treat map like filter
@@ -42,21 +44,21 @@ function createRunning (line, cb) {
   return cb();
 }
 
-function randomNumber () {
-  return Math.floor(Math.random() * 4000);
+function randomNumber() {
+  return Math.floor(Math.random() * 40000000);
 }
 
 /**
  * description creates an array from 1 to the end number
  *
  */
-function createRange (end) {
+function createRange(end) {
   if (end === 0) {
-     return [];
+    return [];
   }
-  var results = [],
-  current = 1,
-  step = 0 <= end ? 1 : -1;
+  var results = [];
+  var current = 1;
+  var step = 0 <= end ? 1 : -1;
 
   results.push(current);
 
@@ -68,21 +70,22 @@ function createRange (end) {
   return results;
 }
 
-function __map(value,callback) {
+function __mapFake(value, callback) {
   var dir = path + randomNumber();
-  return fs.mkdir(dir,function fsDirCb(err) {
-    if(err) throw err;
-    return callback(null,dir);
+  return fs.mkdir(dir, function fsDirCb(err) {
+    return callback(err, dir);
   });
 }
 
-function createFakeDirs(amount,cb) {
- var array = createRange(amount);
- return async.map(array, __map, cb);
+function createFakeDirs(amount, cb) {
+  var range = createRange(amount);
+  return async.map(range, __mapFake, cb);
 }
 
 module.exports = {
-  createRunningDirs:createRunningDirs,
-  createFakeDirs:createFakeDirs
+  createRunningDirs: createRunningDirs,
+  createFakeDirs: createFakeDirs,
+  createRange: createRange,
+  randomNumber: randomNumber
 };
 
