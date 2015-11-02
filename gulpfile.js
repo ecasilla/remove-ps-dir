@@ -1,3 +1,10 @@
+/**
+ * remove-ps-dir - A module to remove directory's that are named after their process id
+ * @version v1.0.0
+ * @link https://github.com/ecasilla/remove-ps-dir
+ * @license MIT
+ * @author Ernie Casilla - ecasilla@icloud.com
+ */
 'use strict';
 var path             = require('path');
 var gulp             = require('gulp');
@@ -10,6 +17,7 @@ var plumber          = require('gulp-plumber');
 var coveralls        = require('gulp-coveralls');
 var notify           = require('gulp-notify');
 var header           = require('gulp-header');
+var pkg              = require('./package.json');
 
 gulp.task('static', function () {
   return gulp.src('**/*.js')
@@ -20,7 +28,7 @@ gulp.task('static', function () {
 });
 
 gulp.task('nsp', function (cb) {
-  nsp('package.json', cb);
+  nsp({package:pkg}, cb);
 });
 
 gulp.task('pre-test', function () {
@@ -47,7 +55,6 @@ gulp.task('test', ['pre-test'], function (cb) {
 });
 
 gulp.task('banner', function () {
-  var pkg = require('./package.json');
   var banner = ['/**',
     ' * <%= pkg.name %> - <%= pkg.description %>',
     ' * @version v<%= pkg.version %>',
@@ -56,8 +63,10 @@ gulp.task('banner', function () {
     ' * @author <%= pkg.author.name %> - <%= pkg.author.email %>',
     ' */',
     ''].join('\n');
-  gulp.src('./lib/**/*.js')
-    .pipe(header(banner, { pkg: pkg }));
+  gulp.src(['**/*.js','!node_modules'],{base: './'})
+    .pipe(header(banner, { pkg: pkg }))
+    .pipe(gulp.dest('./'))
+
 });
 
 gulp.task('coveralls', ['test'], function () {

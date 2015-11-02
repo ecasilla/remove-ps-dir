@@ -1,6 +1,6 @@
 {
   "name": "remove-ps-dir",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A module to remove directory's that are named after their process id",
   "homepage": "https://github.com/ecasilla/remove-ps-dir",
   "author": {
@@ -29,7 +29,8 @@
     "gulp-header": "^1.7.1",
     "gulp-istanbul": "^0.9.0",
     "gulp-mocha": "^2.0.0",
-    "gulp-nsp": "^0.4.5",
+    "gulp-notify": "^2.2.0",
+    "gulp-nsp": "2.0.1",
     "gulp-plumber": "^1.0.0",
     "sinon": "^1.17.2"
   },
