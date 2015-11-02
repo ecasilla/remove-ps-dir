@@ -3,6 +3,7 @@
 var expect = require('chai').expect;
 var sinon = require('sinon');
 var fs = require('fs');
+var helper = require('./helpers');
 var RemovePsDir = require('../lib');
 
 describe('remove-ps-dir', function () {
