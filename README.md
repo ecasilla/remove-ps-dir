@@ -15,8 +15,10 @@ $ npm install --save remove-ps-dir
 ```js
 var removePsDir = require('remove-ps-dir');
 
-removePsDir('/tmp', function(err){
- if(err) return err;
+removePsDir('/tmp', function(err,removedPaths){
+  if (err) {
+    return err;
+  }
 });
 
 ```
