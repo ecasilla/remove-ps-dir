@@ -63,7 +63,7 @@ gulp.task('banner', function () {
     ' * @author <%= pkg.author.name %> - <%= pkg.author.email %>',
     ' */',
     ''].join('\n');
-  gulp.src(['**/*.js','!node_modules'],{base: './'})
+  gulp.src(['/**/*.js','!node_modules/**/*.js'],{base: './'})
     .pipe(header(banner, { pkg: pkg }))
     .pipe(gulp.dest('./'))
 
