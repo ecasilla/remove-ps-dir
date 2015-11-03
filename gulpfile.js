@@ -28,7 +28,7 @@ gulp.task('static', function () {
 });
 
 gulp.task('nsp', function (cb) {
-  nsp({package:pkg}, cb);
+  nsp({package: pkg}, cb);
 });
 
 gulp.task('pre-test', function () {
@@ -63,9 +63,9 @@ gulp.task('banner', function () {
     ' * @author <%= pkg.author.name %> - <%= pkg.author.email %>',
     ' */',
     ''].join('\n');
-  gulp.src(['/**/*.js','!node_modules/**/*.js'],{base: './'})
+  gulp.src(['/**/*.js', '!node_modules/**/*.js'], {base: './'})
     .pipe(header(banner, { pkg: pkg }))
-    .pipe(gulp.dest('./'))
+    .pipe(gulp.dest('./'));
 
 });
 
