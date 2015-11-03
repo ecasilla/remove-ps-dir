@@ -17,6 +17,8 @@ var plumber          = require('gulp-plumber');
 var coveralls        = require('gulp-coveralls');
 var notify           = require('gulp-notify');
 var header           = require('gulp-header');
+var shell            = require('gulp-shell');
+var del              = require('del');
 var pkg              = require('./package.json');
 
 gulp.task('static', function () {
@@ -26,6 +28,14 @@ gulp.task('static', function () {
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
+
+gulp.task('clean', function (cb) {
+  del(['./docs','./coverage'], cb);
+});
+
+gulp.task('docs', ['clean'], shell.task([
+ './node_modules/.bin/jsdoc -c jsdoc.conf.json -d docs/code lib/ -r index.js'
+]))
 
 gulp.task('nsp', function (cb) {
   nsp({package: pkg}, cb);

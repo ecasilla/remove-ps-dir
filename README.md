@@ -1,6 +1,6 @@
 # remove-ps-dir [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
-> A module to remove directory&#39;s that are named after their process id
-
+> A module to remove directory&#39;s that are named after their process id.  
+I created this module while needing a clean way for the clustered node processes to have a dedicated directory, but also have some clean up happen once they died.
 
 
 ## Install
@@ -13,9 +13,11 @@ $ npm install --save remove-ps-dir
 ## Usage
 
 ```js
-var removePsDir = require('remove-ps-dir');
+var ps = require('remove-ps-dir');
 
-removePsDir('/tmp', function(err,removedPaths){
+// A valid path to a folder I want to remove dead
+// workers usually a temp folder
+ps.remove('/tmp', function(err,removedPaths){
   if (err) {
     return err;
   }

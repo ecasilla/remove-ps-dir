@@ -14,9 +14,12 @@
   "main": "lib/index.js",
   "keywords": [
     "ps",
-    "ps",
+    "workers",
     "tree",
-    "process"
+    "process",
+    "remove directory",
+    "remove",
+    "directory"
   ],
   "repository": "ecasilla/remove-ps-dir",
   "devDependencies": {
@@ -32,6 +35,9 @@
     "gulp-notify": "^2.2.0",
     "gulp-nsp": "2.0.1",
     "gulp-plumber": "^1.0.0",
+    "gulp-shell": "^0.5.1",
+    "ink-docstrap": "^0.5.2",
+    "jsdoc": "^3.3.3",
     "sinon": "^1.17.2"
   },
   "scripts": {
