@@ -30,12 +30,12 @@ gulp.task('static', function () {
 });
 
 gulp.task('clean', function (cb) {
-  del(['./docs','./coverage'], cb);
+  del(['./docs', './coverage'], cb);
 });
 
 gulp.task('docs', ['clean'], shell.task([
- './node_modules/.bin/jsdoc -c jsdoc.conf.json -d docs/code lib/ -r index.js'
-]))
+  './node_modules/.bin/jsdoc -c jsdoc.conf.json -d docs/code lib/ -r index.js'
+]));
 
 gulp.task('nsp', function (cb) {
   nsp({package: pkg}, cb);
